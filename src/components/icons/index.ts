@@ -1,0 +1,7 @@
+export { default as IFacebook } from './IFacebook'
+export { default as ILogo } from './ILogo'
+export { default as IEmail } from './IEmail'
+export { default as ITikTok } from './ITikTok'
+export { default as IInstagram } from './IInstagram'
+export { default as IYoutube } from './IYoutube'
+export { default as IGoogle } from './IGoogle'
