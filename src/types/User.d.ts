@@ -14,4 +14,5 @@ export interface User {
 	role: string
 	status: string
 	orders?: Order[]
+	id: string
 }

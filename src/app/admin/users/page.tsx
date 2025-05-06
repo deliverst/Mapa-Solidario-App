@@ -5,12 +5,17 @@ import { useState } from 'react'
 import GenericTable from '@/components/general/GenericTable'
 import Modal from '@/components/general/Modal'
 import UserFormModal from '@/app/admin/users/Form'
-import { useUsers } from '@/hooks/useUsers'
 import { User } from '@/types/User'
+import { useLocationStore } from '@/store/useLocationStore'
 
 export default function Page() {
 	const router = useRouter()
-	const { users, create, update, remove } = useUsers()
+
+	const users = useLocationStore(state => state.users)
+	const create = useLocationStore(state => state.createUser)
+	const update = useLocationStore(state => state.updateUser)
+	const remove = useLocationStore(state => state.removeUser)
+
 	const [isOpen, setIsOpen] = useState(false)
 	const [selectedUser, setSelectedUser] = useState<User | null>(null)
 
@@ -26,7 +31,8 @@ export default function Page() {
 
 
 	const handleViewDetails = (user: User) => {
-		router.push(`/admin/users/${encodeURIComponent(user.email)}`)
+		console.log({user})
+		router.push(`/admin/users/${encodeURIComponent(user.id)}`)
 	}
 
 

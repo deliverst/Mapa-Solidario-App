@@ -1,13 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
-interface User {
-	name: string
-	email: string
-	role: string
-	status: string
-}
+import { User } from '@/types/User'
 
 interface Props {
 	user: User | null
@@ -18,10 +12,12 @@ interface Props {
 
 const UserFormModal = ({ user, onClose, onCreate, onUpdate }: Props) => {
 	const [formData, setFormData] = useState<User>({
+		id: '',
 		name: '',
 		email: '',
 		role: '',
 		status: '',
+		orders: [],
 	})
 
 	useEffect(() => {
@@ -29,10 +25,12 @@ const UserFormModal = ({ user, onClose, onCreate, onUpdate }: Props) => {
 			setFormData(user)
 		} else {
 			setFormData({
+				id: '',
 				name: '',
 				email: '',
 				role: '',
 				status: '',
+				orders: [],
 			})
 		}
 	}, [user])
@@ -53,7 +51,11 @@ const UserFormModal = ({ user, onClose, onCreate, onUpdate }: Props) => {
 			onUpdate(formData)
 			alert('Usuario actualizado exitosamente')
 		} else {
-			onCreate(formData)
+			const newUser = {
+				...formData,
+				id: crypto.randomUUID(),
+			}
+			onCreate(newUser)
 			alert('Usuario creado exitosamente')
 		}
 

@@ -1,5 +1,6 @@
 export const users = [
 	{
+		id: 'user_ab12cd34ef',
 		name: 'Juan Pérez',
 		email: 'juan.perez@gmailf.com',
 		role: 'Administrador',
@@ -15,6 +16,7 @@ export const users = [
 		],
 	},
 	{
+		id: 'user_f93kd84md2',
 		name: 'María García',
 		email: 'maria.garcia@gmail.com',
 		role: 'Voluntario',
@@ -22,6 +24,7 @@ export const users = [
 		orders: [],
 	},
 	{
+		id: 'user_ue38sn19qp',
 		name: 'Carlos López',
 		email: 'carlos.lopez@gmail.com',
 		role: 'Coordinador',
@@ -37,10 +40,11 @@ export const users = [
 		],
 	},
 	{
+		id: 'user_kd73md92lw',
 		name: 'Ana Torres',
 		email: 'ana.torres@gmail.com',
 		role: 'Supervisor',
 		status: 'Activo',
 		orders: [],
 	},
-]
+];

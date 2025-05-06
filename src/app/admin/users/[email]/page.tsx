@@ -12,7 +12,7 @@ export default function UserDetailPage() {
 	const users = useLocationStore((state) => state.users)
 	const updateUser = useLocationStore((state) => state.updateUser)
 
-	const user = users.find(u => u.email === decodeURIComponent(email as string))
+	const user = users.find(u => u.id === decodeURIComponent(email as string))
 
 	const [isOpen, setIsOpen] = useState(false)
 	const [item, setItem] = useState('')
