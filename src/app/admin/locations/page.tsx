@@ -1,58 +1,54 @@
 'use client'
-import GenericTable from '@/components/general/GenericTable'
-import { useRouter } from 'next/navigation'
-import Modal from '@/components/general/Modal'
+
 import { useState } from 'react'
-import NuevaUbicacionModal from '@/app/admin/locations/Form'
+import { useRouter } from 'next/navigation'
+import GenericTable from '@/components/general/GenericTable'
+import Modal from '@/components/general/Modal'
+import NewLocationModal from '@/app/admin/locations/Form'
+import { useLocationStore } from '@/store/useLocationStore'
 
 export default function Page() {
 	const router = useRouter()
-	const [isOpen, setIsOpen] = useState(false)
 
-	const puntosDeDonacionChihuahua = [
-		{
-			nombre: 'Banco de Alimentos de Chihuahua',
-			direccion: 'C. José María Morelos 405, Zona Centro, 31000 Chihuahua, Chih.',
-			telefono: ['+52 614 415 3990', '+52 614 435 2759'],
-			tiposDeApoyo: ['Alimentos no perecederos', 'Despensas'],
-			horario: 'Lunes a viernes, 9:00 AM – 4:00 PM',
-		},
-		{
-			nombre: 'Cáritas de Chihuahua I.B.P.',
-			direccion: 'C. 37a #1612, Col. Obrera, 31000 Chihuahua, Chih.',
-			telefono: ['+52 614 410 8400'],
-			tiposDeApoyo: ['Ropa en buen estado', 'Cobijas', 'Artículos de higiene personal'],
-			horario: 'Lunes a viernes, 8:00 AM – 3:00 PM',
-		},
-		{
-			nombre: 'DIF Estatal Chihuahua – Atención Ciudadana',
-			direccion: 'Cristóbal Colón S/N, Col. de las Madres, 33700 Chihuahua, Chih.',
-			telefono: ['+52 648 462 3510'],
-			tiposDeApoyo: ['Alimentos', 'Ropa', 'Apoyo escolar'],
-			horario: 'Lunes a viernes, 8:00 AM – 4:00 PM',
-		},
-		{
-			nombre: 'Fundación Grupo Bafar',
-			direccion: 'Blvd. J. Fuentes Mares 1303, Divisón del Norte, 31064 Chihuahua, Chih.',
-			telefono: ['+52 614 414 0995'],
-			tiposDeApoyo: ['Alimentos', 'Ropa', 'Útiles escolares'],
-			horario: 'Lunes a viernes, 9:00 AM – 5:00 PM',
-		},
-	].map((item, index) => ({
-		...item,
+	const locations = useLocationStore((state) => state.locations)
+	const create = useLocationStore((state) => state.create)
+	const update = useLocationStore((state) => state.update)
+	const remove = useLocationStore((state) => state.remove)
+
+	const [isOpen, setIsOpen] = useState(false)
+	const [selectedLocation, setSelectedLocation] = useState<any>(null)
+
+	const handleNewLocation = () => {
+		setSelectedLocation(null)
+		setIsOpen(true)
+	}
+
+	const handleEdit = (location: any) => {
+		setSelectedLocation(location)
+		setIsOpen(true)
+	}
+
+	const handleDelete = (location: any) => {
+		if (confirm(`Delete location: ${location.name}?`)) {
+			remove(location.name)
+		}
+	}
+
+	const locationRows = locations.map((location) => ({
+		...location,
 		options: (
 			<div className='flex gap-2'>
 				<button
-					onClick={() => alert(`Editar fila ${index}`)}
+					onClick={() => handleEdit(location)}
 					className='text-blue-600 hover:underline text-sm'
 				>
-					Editar
+					Edit
 				</button>
 				<button
-					onClick={() => alert(`Eliminar fila ${index}`)}
+					onClick={() => handleDelete(location)}
 					className='text-red-600 hover:underline text-sm'
 				>
-					Eliminar
+					Delete
 				</button>
 			</div>
 		),
@@ -61,20 +57,23 @@ export default function Page() {
 	return (
 		<>
 			<GenericTable
-				title='Lista de Puntos'
-				data={puntosDeDonacionChihuahua}
+				title='Donation Locations'
+				data={locationRows}
 				extraButtons={[
 					<button
-						key='crear'
-						onClick={() => setIsOpen(true)}
+						key='create'
+						onClick={handleNewLocation}
 						className='bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm'
 					>
-						Crear nueva ubicación
+						Create New Location
 					</button>,
 				]}
 			/>
 			<Modal isOpen={isOpen} handleStatusModal={setIsOpen}>
-				<NuevaUbicacionModal/>
+				<NewLocationModal
+					location={selectedLocation}
+					onClose={() => setIsOpen(false)}
+				/>
 			</Modal>
 		</>
 	)

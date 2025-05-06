@@ -1,6 +1,7 @@
 'use client'
 import { createPortal } from 'react-dom'
 import { useEffect, useRef, useCallback, useState, FC, Dispatch, SetStateAction, ReactNode } from 'react'
+import IClose from '@/components/icons/IClose'
 
 interface typeProps {
 	title?: string
@@ -118,8 +119,8 @@ const Modal: FC<typeProps> = ({
 								<h1 className='text-extrabold text-2xl'>
 									{title}
 								</h1>
-								<button color='white' onClick={handleClick}>
-									Close
+								<button className='cursor-pointer' color='white' onClick={handleClick}>
+									<IClose />
 								</button>
 							</div>
 							{children}

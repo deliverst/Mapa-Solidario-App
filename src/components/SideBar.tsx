@@ -9,13 +9,15 @@ import React, {
 	useState,
 } from 'react'
 import { usePathname } from 'next/navigation'
-import { IFacebook, IGoogle, IInstagram } from '@/components/icons'
+import {  IGoogle, } from '@/components/icons'
 import Image from 'next/image'
 import IDashboard from '@/components/icons/IDashboard'
-import ICloudUpload from '@/components/icons/ICloudUpload'
 import ISettings from '@/components/icons/ISettings'
-import IUSPS from '@/components/icons/IUsps'
 import IAccountCircle from '@/components/icons/IAccountCircle'
+import { useRouter } from 'next/navigation'
+import IBag from '@/components/icons/IBag'
+import IBurger from '@/components/icons/IBurger'
+import IArrow from '@/components/icons/IArrow'
 
 type Label = {
 	url: string
@@ -28,10 +30,11 @@ const labels: Label[] = [
 	{ url: '/admin/users', label: 'Usuarios', icon: < IAccountCircle fill='gray'/>  },
 	{ url: '/admin/locations', label: 'Locaciones', icon: <IGoogle /> },
 	{ url: '/admin/configurations', label: 'Configuraciones', icon: <ISettings fill='gray' /> },
+	{ url: '/admin/maps', label: 'Mapa', icon: <ISettings fill='gray' /> },
 ]
 
 const Sidebar = ({ isMinimizeds = false }: { isMinimizeds: boolean }) => {
-
+	const router = useRouter()
 	const [isOpenSideBar, setIsOpenSideBar] = useState(true)
 	const sidebarRef = useRef<HTMLDivElement>(null!)
 	const [hasScrolled, setHasScrolled] = useState(false)
@@ -102,7 +105,7 @@ const Sidebar = ({ isMinimizeds = false }: { isMinimizeds: boolean }) => {
 
 	return (
 		<>
-			<aside ref={sidebarRef} id='default-sidebar' className={`fixed top-0 left-0 z-[11] h-screen transition-all duration-300 ease-in-out ${isMinimized
+			<aside ref={sidebarRef} id='default-sidebar' className={`fixed top-0 left-0 z-[11] h-screen transition-all duration-300 ease-in-out bg-white ${isMinimized
 				? 'w-[61px]' : 'w-64'} ${isOpenSideBar ? 'translate-x-0' : '-translate-x-full'}`}>
 				<div className='h-full px-3 py-4 overflow-y-auto flex flex-col justify-between border border-gray-300'>
 					<ul className='space-y-2 font-medium'>
@@ -115,7 +118,7 @@ const Sidebar = ({ isMinimizeds = false }: { isMinimizeds: boolean }) => {
 										}`}
 									>
 										<div className='flex items-center justify-center rounded-full border border-gray-100 p-1 transition-all duration-300 ease-in-out hover:shadow-md hover:scale-105 hover:border-gray-100'>
-											Logo Isotipo
+											<Image width={100} height={100} src={'/logo.png'} alt='as' />
 										</div>
 									</div>
 									<div className={`transition-opacity duration-300 ease-in-out ${isMinimized ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
@@ -126,7 +129,7 @@ const Sidebar = ({ isMinimizeds = false }: { isMinimizeds: boolean }) => {
 						</div>
 						<div className={`flex ${isMinimized ? 'justify-start' : 'justify-start'}`}>
 							<button onClick={handleToggle} className={`mt-4 p-3 border  rounded-lg focus:outline-none w-full flex justify-center border-gray-300`}>
-								{isMinimized ? '>' : '<'}
+								{isMinimized ? <IArrow fill='gray' direction='left'/> : <IArrow fill='gray' direction='left'/>}
 							</button>
 						</div>
 						{labels.map(({ label, url, icon }) => (
@@ -154,9 +157,14 @@ const Sidebar = ({ isMinimizeds = false }: { isMinimizeds: boolean }) => {
 								: 'pointer-events-auto  opacity-100'
 						}`}
 					>
-						<div className='text-center flex flex-col'>
-							<p>updates Listed</p>
-							<p>button logout</p>
+
+						<div className='text-center flex flex-col items-center mt-4'>
+							<button
+								onClick={() => router.push('/login')}
+								className='bg-red-400 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors duration-200 text-sm cursor-pointer font-bold'
+							>
+								Cerrar sesión
+							</button>
 						</div>
 					</div>
 				</div>
@@ -170,13 +178,13 @@ const Sidebar = ({ isMinimizeds = false }: { isMinimizeds: boolean }) => {
 							type='button'
 							className='hs-collapse-toggle inline-flex items-center justify-center gap-2 rounded-lg border p-2 align-middle text-sm font-medium text-white shadow-sm transition-all hover:bg-white/[.15] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-600'
 						>
-							Icon Burger
+							<IBurger fill='gray' />
 						</button>
 					</div>
 
 					<Link href='/'>
 						<div className='flex justify-center'>
-							Logo
+							<Image width={100} height={100} src={'/logo.png'} alt='as' />
 						</div>
 					</Link>
 
