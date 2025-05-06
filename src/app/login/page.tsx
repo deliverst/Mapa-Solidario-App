@@ -11,7 +11,6 @@ const LoginPage = () => {
 		email: '',
 		password: '',
 	})
-	const [error, setError] = useState('')
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -35,7 +34,6 @@ const LoginPage = () => {
 				</div>
 
 				<h2 className='text-2xl font-bold mb-6 text-center text-purple-600'>Iniciar Sesión</h2>
-				{error && <p className='text-red-500 mb-4 text-sm text-center'>{error}</p>}
 
 				<form onSubmit={handleSubmit} className='space-y-5'>
 					<div>

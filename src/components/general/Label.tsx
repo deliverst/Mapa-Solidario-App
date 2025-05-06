@@ -1,5 +1,4 @@
 import { ReactNode } from 'react'
-import { cn } from '@/lib/clsx'
 
 interface LabelProps {
 	id?: string;
@@ -11,7 +10,7 @@ interface LabelProps {
 
 const Label: React.FC<LabelProps> = ({ text, name, children, className, id }) => {
 	return (
-		<label htmlFor={id || name} className={cn('flex flex-col w-full font-medium text-white-900', className)}>
+		<label htmlFor={id || name} className={`flex flex-col w-full font-medium text-white-900 ${className || ''}`}>
 			{text}
 			{children}
 		</label>

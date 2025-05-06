@@ -10,7 +10,7 @@ interface User {
 }
 
 interface Props {
-	user?: User
+	user: User | null
 	onClose: () => void
 	onCreate: (user: User) => void
 	onUpdate: (user: User) => void

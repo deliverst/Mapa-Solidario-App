@@ -4,6 +4,8 @@ import { useParams } from 'next/navigation'
 import { useLocationStore } from '@/store/useLocationStore'
 import { useState } from 'react'
 import Modal from '@/components/general/Modal'
+import Link from 'next/link'
+import { Order, User } from '@/types/User'
 
 export default function UserDetailPage() {
 	const { email } = useParams()
@@ -40,7 +42,6 @@ export default function UserDetailPage() {
 		setQuantity(1)
 	}
 
-	// Guardar nueva orden
 	const handleSaveOrder = () => {
 		if (!user || orderItems.length === 0) return
 
@@ -59,31 +60,37 @@ export default function UserDetailPage() {
 		setIsOpen(false)
 	}
 
-	// Guardar cambios de una orden existente
-	const handleUpdateOrder = () => {
-		if (!user || !editingOrder) return
+	const handleUpdateOrder: () => void = () => {
+		if (!user || !editingOrder || !user.orders) return
 
-		const updatedOrders = user.orders.map(order =>
-			order.numberOrder === editingOrder.numberOrder ? editingOrder : order
+		const updatedOrders: Order[] = user.orders.map((order) =>
+			order.numberOrder === editingOrder.numberOrder ? editingOrder : order,
 		)
 
-		updateUser({
+		const updatedUser: User = {
 			...user,
 			orders: updatedOrders,
-		})
+		}
+
+		updateUser(updatedUser)
 
 		setEditingOrder(null)
 		setIsOpen(false)
 	}
 
-	// Eliminar una orden
-	const handleDeleteOrder = (numberOrder: string) => {
-		if (!user) return
+	const handleDeleteOrder = (numberOrder: string): void => {
+		if (!user || !user.orders) return
 
-		updateUser({
+		const updatedOrders: Order[] = user.orders.filter(
+			(order) => order.numberOrder !== numberOrder,
+		)
+
+		const updatedUser: User = {
 			...user,
-			orders: user.orders.filter(order => order.numberOrder !== numberOrder),
-		})
+			orders: updatedOrders,
+		}
+
+		updateUser(updatedUser)
 	}
 
 	return (
@@ -110,7 +117,7 @@ export default function UserDetailPage() {
 				<div className='mt-4 space-y-4'>
 					<h2 className='text-xl font-semibold'>Órdenes</h2>
 					<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-						{user.orders.map((order, i) => (
+						{user.orders.map((order) => (
 							<div
 								key={order.numberOrder}
 								className='border rounded-lg p-4 shadow-sm bg-white hover:shadow-md transition relative'
@@ -156,12 +163,9 @@ export default function UserDetailPage() {
 				<p className='text-gray-500'>Sin órdenes registradas.</p>
 			)}
 
-			<a
-				href='/admin/users'
-				className='inline-block mt-6 text-purple-600 hover:underline'
-			>
+			<Link href='/admin/users' className='inline-block mt-6 text-purple-600 hover:underline'>
 				← Volver al listado de usuarios
-			</a>
+			</Link>
 
 			<Modal
 				isOpen={isOpen}
@@ -208,7 +212,7 @@ export default function UserDetailPage() {
 							</ul>
 						) : (
 							<p className='text-gray-500 text-sm'>No hay items agregados aún.</p>
-						)}					</div>
+						)}                    </div>
 
 					{/* Formulario */}
 					<div className='md:w-1/2 space-y-4'>

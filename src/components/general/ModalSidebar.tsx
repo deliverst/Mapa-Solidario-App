@@ -1,7 +1,7 @@
 'use client'
 import React, { ReactNode, useEffect, useState } from 'react'
-import IClose from './icons/IClose'
 import { createPortal } from 'react-dom'
+import IClose from '@/components/icons/IClose'
 
 interface ModalSidebarProps {
     children: ReactNode

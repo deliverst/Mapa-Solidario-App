@@ -1,34 +1,31 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import GenericTable from '@/components/general/GenericTable'
 import Modal from '@/components/general/Modal'
 import NewLocationModal from '@/app/admin/locations/Form'
 import { useLocationStore } from '@/store/useLocationStore'
+import { Location } from '@/types/Location'
 
 export default function Page() {
-	const router = useRouter()
 
 	const locations = useLocationStore((state) => state.locations)
-	const create = useLocationStore((state) => state.create)
-	const update = useLocationStore((state) => state.update)
 	const remove = useLocationStore((state) => state.remove)
 
 	const [isOpen, setIsOpen] = useState(false)
-	const [selectedLocation, setSelectedLocation] = useState<any>(null)
+	const [selectedLocation, setSelectedLocation] = useState<Location | null>(null)
 
 	const handleNewLocation = () => {
 		setSelectedLocation(null)
 		setIsOpen(true)
 	}
 
-	const handleEdit = (location: any) => {
+	const handleEdit = (location: Location) => {
 		setSelectedLocation(location)
 		setIsOpen(true)
 	}
 
-	const handleDelete = (location: any) => {
+	const handleDelete = (location: Location) => {
 		if (confirm(`Delete location: ${location.name}?`)) {
 			remove(location.name)
 		}

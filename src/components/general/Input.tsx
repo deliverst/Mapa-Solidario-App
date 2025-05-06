@@ -1,7 +1,6 @@
 import Label from './Label'
 import { WheelEvent } from 'react'
 import * as React from 'react'
-import { cn } from '@/lib/clsx'
 
 export interface InputProps
 	extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -22,7 +21,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({
 		type,
 		label,
 		name,
-		id,
 		placeholder,
 		...props
 	}, ref) => {
@@ -42,10 +40,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({
 					placeholder={placeholder}
 					data-1p-ignore={true}
 					type={type}
-					className={cn('h-10 py-2 mb-1 block rounded-md border px-3 text-base bg-white text-gray-500 ',
-						error ? 'border-red-500' : 'border-gray-200',
-						className,
-					)}
+					className={`h-10 py-2 mb-1 block rounded-md border px-3 text-base bg-white text-gray-500 ${error ? 'border-red-500' : 'border-gray-200'} ${className ?? ''}`}
 					name={name}
 					ref={ref}
 					onWheel={preventWheelEvent}

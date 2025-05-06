@@ -15,7 +15,6 @@ import IDashboard from '@/components/icons/IDashboard'
 import ISettings from '@/components/icons/ISettings'
 import IAccountCircle from '@/components/icons/IAccountCircle'
 import { useRouter } from 'next/navigation'
-import IBag from '@/components/icons/IBag'
 import IBurger from '@/components/icons/IBurger'
 import IArrow from '@/components/icons/IArrow'
 

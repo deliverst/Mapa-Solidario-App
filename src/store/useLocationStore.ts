@@ -29,6 +29,7 @@ interface LocationState {
 	hydrated: boolean
 	setHydrated: () => void
 }
+
 export const useLocationStore = create<LocationState>()(
 	persist(
 		(set) => ({
@@ -40,7 +41,7 @@ export const useLocationStore = create<LocationState>()(
 			update: (updatedLoc) =>
 				set((state) => ({
 					locations: state.locations.map((loc) =>
-						loc.name === updatedLoc.name ? updatedLoc : loc
+						loc.name === updatedLoc.name ? updatedLoc : loc,
 					),
 				})),
 			remove: (name) =>
@@ -58,16 +59,18 @@ export const useLocationStore = create<LocationState>()(
 			updateUser: (updatedUser) =>
 				set((state) => ({
 					users: state.users.map((user) =>
-						user.email === updatedUser.email ? updatedUser : user
+						user.email === updatedUser.email ? updatedUser : user,
 					),
 				})),
 			removeUser: (email) =>
 				set((state) => ({
 					users: state.users.filter((user) => user.email !== email),
 				})),
+			hydrated: false,
+			setHydrated: () => set({ hydrated: true }),
 		}),
 		{
 			name: 'mapa-solidario-store', // Clave para localStorage
-		}
-	)
+		},
+	),
 )

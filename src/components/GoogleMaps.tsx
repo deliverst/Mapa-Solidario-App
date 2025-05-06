@@ -1,6 +1,12 @@
 'use client'
 import { useEffect, useRef } from 'react'
 
+declare global {
+	interface Window {
+		google: typeof google
+	}
+}
+
 interface MarkerData {
 	lat: number
 	lng: number
@@ -35,7 +41,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ markers }) => {
 			})
 		}
 
-		if (!(window as any).google || !(window as any).google.maps) {
+		if (!window.google || !window.google.maps) {
 			const existingScript = document.querySelector(`script[src^="https://maps.googleapis.com/maps/api/js"]`)
 			if (!existingScript) {
 				const script = document.createElement('script')

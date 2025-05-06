@@ -2,19 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { useLocationStore } from '@/store/useLocationStore'
-
-interface Location {
-	name: string
-	address: string
-	phone: string[]
-	supportTypes: string[]
-	schedule: string
-	lat: number
-	lng: number
-}
+import { Location } from '@/types/Location'
 
 interface Props {
-	location?: Location
+	location?: Location | null
 	onClose: () => void
 }
 

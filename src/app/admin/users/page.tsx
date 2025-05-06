@@ -6,14 +6,15 @@ import GenericTable from '@/components/general/GenericTable'
 import Modal from '@/components/general/Modal'
 import UserFormModal from '@/app/admin/users/Form'
 import { useUsers } from '@/hooks/useUsers'
+import { User } from '@/types/User'
 
 export default function Page() {
 	const router = useRouter()
 	const { users, create, update, remove } = useUsers()
 	const [isOpen, setIsOpen] = useState(false)
-	const [selectedUser, setSelectedUser] = useState(null)
+	const [selectedUser, setSelectedUser] = useState<User | null>(null)
 
-	const handleEditUser = (user) => {
+	const handleEditUser = (user: User) => {
 		setSelectedUser(user)
 		setIsOpen(true)
 	}
@@ -24,13 +25,13 @@ export default function Page() {
 	}
 
 
-	const handleViewDetails = (user) => {
+	const handleViewDetails = (user: User) => {
 		router.push(`/admin/users/${encodeURIComponent(user.email)}`)
 	}
 
 
-
-	const userRows = users.map(user => {
+	const userRows = users.map((user: User) => {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { orders, ...rest } = user
 
 		return {
