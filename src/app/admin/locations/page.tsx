@@ -34,22 +34,30 @@ export default function Page() {
 		}
 	}
 
-	const locationRows = locations.map((location) => ({
-		...location,
+	const locationRows = locations.map(({ lat, lng, ...rest }) => ({
+		...rest,
 		options: (
 			<div className='flex gap-2'>
 				<button
-					onClick={() => handleEdit(location)}
+					onClick={() => handleEdit({ ...rest, lat, lng })}
 					className='text-blue-600 hover:underline text-sm'
 				>
 					Edit
 				</button>
 				<button
-					onClick={() => handleDelete(location)}
+					onClick={() => handleDelete({ ...rest, lat, lng })}
 					className='text-red-600 hover:underline text-sm'
 				>
 					Delete
 				</button>
+				<a
+					href={`https://www.google.com/maps?q=${lat},${lng}`}
+					target='_blank'
+					rel='noopener noreferrer'
+					className='text-green-600 hover:underline text-sm'
+				>
+					Ver en mapa
+				</a>
 			</div>
 		),
 	}))
@@ -57,7 +65,7 @@ export default function Page() {
 	return (
 		<>
 			<GenericTable
-				title='Donation Locations'
+				title='Locaciones de Donaciones'
 				data={locationRows}
 				extraButtons={[
 					<button
@@ -65,7 +73,7 @@ export default function Page() {
 						onClick={handleNewLocation}
 						className='bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm'
 					>
-						Create New Location
+						Crear nueva locación
 					</button>,
 				]}
 			/>
